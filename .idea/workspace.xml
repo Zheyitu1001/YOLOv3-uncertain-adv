@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bf657d2d-84a0-4adf-bb46-fcd9f05d0d3f" name="Default Changelist" comment="" />
+    <list default="true" id="bf657d2d-84a0-4adf-bb46-fcd9f05d0d3f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/create_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/create_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/yolo_layer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/yolo_layer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect_.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/Metrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/Metrics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/NMS.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/NMS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/augmentations.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/augmentations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/build_targets.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/build_targets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/datasets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/nll_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/nll_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/parse_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/parse_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/rescale.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/rescale.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/utils.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +38,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1VTSfQ4pt2exJEAbT389ErC3EuS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -23,6 +50,8 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/utils" />
+      <recent name="$PROJECT_DIR$/Model" />
       <recent name="$PROJECT_DIR$/weights" />
       <recent name="$PROJECT_DIR$/data" />
     </key>
@@ -51,5 +80,18 @@
       <updated>1577275694918</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

@@ -5,6 +5,7 @@ from utils.utils import *
 from utils.datasets import *
 from utils.parse_config import *
 from utils.Metrics import ap_per_class, compute_ap, get_batch_statistics
+from utils.NMS import non_max_suppression
 
 import os
 import sys
@@ -45,6 +46,7 @@ def evaluate(model, path, iou_thres, conf_thres, nms_thres, img_size, batch_size
         imgs = Variable(imgs.type(Tensor), requires_grad=False)
 
         with torch.no_grad():
+        #outputs: (batch_size, num_anchors, grid_size, grid_size)
             outputs = model(imgs)
             outputs = non_max_suppression(outputs, conf_thres=conf_thres, nms_thres=nms_thres)
 

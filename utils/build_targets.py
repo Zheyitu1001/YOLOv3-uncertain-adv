@@ -19,6 +19,7 @@ def build_targets(pred_boxes, pred_cls, target, anchors, ignore_thres):
     nA = pred_boxes.size(1) # 3
     nC = pred_cls.size(-1)  # 80
     nG = pred_boxes.size(2) # grid_size
+    scale = torch.tensor
 
     # Output tensors
     #即第m个采样中的第k个anchor的第i行第j列的cell的预测量
@@ -31,6 +32,8 @@ def build_targets(pred_boxes, pred_cls, target, anchors, ignore_thres):
     tw = FloatTensor(nB, nA, nG, nG).fill_(0)
     th = FloatTensor(nB, nA, nG, nG).fill_(0)
     tcls = FloatTensor(nB, nA, nG, nG, nC).fill_(0)
+    #返回负责预测某个gt的第b个采样的第best_n个anchor的第ij个grid cell所对应的gt的中心坐标和长宽
+    gt = FloatTensor(nB, nA, nG, nG).fill_(0)
 
     # Convert to position relative to box
     target_boxes = target[:, 2:6] * nG #gt
@@ -49,6 +52,7 @@ def build_targets(pred_boxes, pred_cls, target, anchors, ignore_thres):
     # Set masks
     obj_mask[b, best_n, gj, gi] = 1
     noobj_mask[b, best_n, gj, gi] = 0
+    gt[b, best_n, gj, gi] = 2 - (gw / nG) * (gh / nG)
 
     # Set noobj mask to zero where iou exceeds ignore threshold
     for i, anchor_ious in enumerate(ious.t()):
@@ -56,6 +60,7 @@ def build_targets(pred_boxes, pred_cls, target, anchors, ignore_thres):
 
     # Coordinates
     # 负责预测gt的第b个sample中的第best_n个anchor在第ij个cell中的中心偏移量以及宽高比例
+    # Center
     tx[b, best_n, gj, gi] = gx - gx.floor()
     ty[b, best_n, gj, gi] = gy - gy.floor()
     # Width and height
@@ -68,4 +73,4 @@ def build_targets(pred_boxes, pred_cls, target, anchors, ignore_thres):
     iou_scores[b, best_n, gj, gi] = bbox_iou(pred_boxes[b, best_n, gj, gi], target_boxes, x1y1x2y2=False)
 
     tconf = obj_mask.float()
-    return iou_scores, class_mask, obj_mask, noobj_mask, tx, ty, tw, th, tcls, tconf
+    return iou_scores, class_mask, obj_mask, noobj_mask, tx, ty, tw, th, tcls, tconf, gt

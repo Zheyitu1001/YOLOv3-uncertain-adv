@@ -7,9 +7,10 @@ from torch.autograd import Variable
 import numpy as np
 
 from utils.parse_config import parse_model_config, parse_data_config
-from utils.utils import build_targets, to_cpu
+from utils.utils import  to_cpu
 from utils.NMS import non_max_suppression
 from Model.create_model import create_modules
+from utils.build_targets import build_targets
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches

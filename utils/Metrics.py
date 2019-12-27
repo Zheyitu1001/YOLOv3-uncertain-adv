@@ -87,7 +87,7 @@ def ap_per_class(tp, conf, pred_cls, target_cls):
     return p, r, ap, f1, unique_classes.astype("int32")
 
 def get_batch_statistics(outputs, targets, iou_threshold):
-    """ Compute true positives, predicted scores and predicted labels per sample """
+    """ Compute true pooutputssitives, predicted scores and predicted labels per sample """
     batch_metrics = []
     for sample_i in range(len(outputs)):
 
@@ -97,6 +97,7 @@ def get_batch_statistics(outputs, targets, iou_threshold):
         output = outputs[sample_i]
         pred_boxes = output[:, :4]
         pred_scores = output[:, 4]
+        pred_
         pred_labels = output[:, -1]
 
         true_positives = np.zeros(pred_boxes.shape[0])

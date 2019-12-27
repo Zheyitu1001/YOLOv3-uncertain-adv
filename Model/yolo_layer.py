@@ -2,8 +2,9 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 
-from utils.utils import build_targets, to_cpu
-from utils.nll_loss import my_nll_yolo, nll
+from utils.utils import to_cpu
+from utils.nll_loss import my_nll_loss
+from utils.build_targets import build_targets
 
 
 class YOLOLayer(nn.Module):
@@ -18,6 +19,7 @@ class YOLOLayer(nn.Module):
         self.ignore_thres = 0.5
         self.mse_loss = nn.MSELoss()
         self.bce_loss = nn.BCELoss()
+        self.nll_loss = my_nll_loss()
         self.obj_scale = 1
         self.noobj_scale = 100
         self.metrics = {}
@@ -59,12 +61,12 @@ class YOLOLayer(nn.Module):
 #prediction: (batch_size, num_anchors=3, grid_size, grid_size, 8+1+80)
         # Get outputs
         x = torch.sigmoid(prediction[..., 0]) # Center x, mu, (batch_size, num_anchors, grid_size, grid_size, 1)
-        x_sigma = torch.sigmoid(prediction[..., 1]) #center x, sigma
-        y = torch.sigmoid(prediction[..., 2])  # Center y, mu
-        y_sigma = torch.sigmoid(prediction[..., 3]) #center y, sigma
-        w = prediction[..., 4]  # Width, mu
-        w_sigma = prediction[..., 5] #width, sigma
-        h = prediction[..., 6]  # Height, mu
+        x_sigma = torch.sigmoid(prediction[..., 4]) #center x, sigma
+        y = torch.sigmoid(prediction[..., 1])  # Center y, mu
+        y_sigma = torch.sigmoid(prediction[..., 5]) #center y, sigma
+        w = prediction[..., 2]  # Width, mu
+        w_sigma = prediction[..., 6] #width, sigma
+        h = prediction[..., 3]  # Height, mu
         h_sigma = prediction[..., 7] #height, sigma
         pred_conf = torch.sigmoid(prediction[..., 8])  # Conf
         pred_cls = torch.sigmoid(prediction[..., 9:])  # Cls pred.
@@ -92,7 +94,7 @@ class YOLOLayer(nn.Module):
         if targets is None:
             return output, 0
         else:
-            iou_scores, class_mask, obj_mask, noobj_mask, tx, ty, tw, th, tcls, tconf = build_targets(
+            iou_scores, class_mask, obj_mask, noobj_mask, tx, ty, tw, th, tcls, tconf, gt= build_targets(
                 pred_boxes=pred_boxes,
                 pred_cls=pred_cls,
                 target=targets,
@@ -101,15 +103,20 @@ class YOLOLayer(nn.Module):
             )
 
             # Loss : Mask outputs to ignore non-existing objects (except with conf. loss)
-            loss_x = self.mse_loss(x[obj_mask], tx[obj_mask])
-            loss_y = self.mse_loss(y[obj_mask], ty[obj_mask])
-            loss_w = self.mse_loss(w[obj_mask], tw[obj_mask])
-            loss_h = self.mse_loss(h[obj_mask], th[obj_mask])
+
+            loss_x = self.nll_loss(tx[obj_mask], x[obj_mask], x_sigma[obj_mask], gt[obj_mask])
+            loss_y = self.nll_loss(ty[obj_mask], y[obj_mask], y_sigma[obj_mask], gt[obj_mask])
+            loss_w = self.nll_loss(tw[obj_mask], w[obj_mask], w_sigma[obj_mask], gt[obj_mask])
+            loss_h = self.nll_loss(th[obj_mask], h[obj_mask], h_sigma[obj_mask], gt[obj_mask])
+
             loss_conf_obj = self.bce_loss(pred_conf[obj_mask], tconf[obj_mask])
             loss_conf_noobj = self.bce_loss(pred_conf[noobj_mask], tconf[noobj_mask])
             loss_conf = self.obj_scale * loss_conf_obj + self.noobj_scale * loss_conf_noobj
+
             loss_cls = self.bce_loss(pred_cls[obj_mask], tcls[obj_mask])
+
             total_loss = loss_x + loss_y + loss_w + loss_h + loss_conf + loss_cls
+
 
             # Metrics
             cls_acc = 100 * class_mask[obj_mask].mean()
